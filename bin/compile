@@ -1,0 +1,26 @@
+#!/bin/sh
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+echo "-----> Install mecab-ipadic-NEologd"
+BUILD_DIR=$1
+VENDOR_DIR="vendor"
+CLONE_URL="https://github.com/neologd/mecab-ipadic-neologd"
+
+echo "CLONE_URL = " $CLONE_URL | indent
+
+cd $BUILD_DIR
+mkdir -p $VENDOR_DIR
+cd $VENDOR_DIR
+
+echo "Set PATH: /app/.linuxbrew/bin/" | indent
+PATH="$PATH:$BUILD_DIR/.linuxbrew/bin/"
+export PATH
+echo "PATH exported" | indent
+
+git clone --depth 1 $CLONE_URL | indent
+cd mecab-ipadic-neologd
+
+yes yes | bin/install-mecab-ipadic-neologd -u `whoami` | indent
